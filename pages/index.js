@@ -1,8 +1,27 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
+import { useState, useEffect } from 'react'
+export default function Home({ data }) {
 
-export default function Home() {
+  const [idImage, setIdImage] = useState([]);
+
+  const handleSubmit = (event) => {
+    const data = new FormData(event.currentTarget)
+    event.preventDefault();
+
+    let item = { id: data.get('idImage') }
+    setIdImage([...idImage, item]);
+  };
+
+  useEffect(() => {
+    // storing input name
+    localStorage.setItem("id", JSON.stringify(idImage));
+    console.log(JSON.parse(localStorage.getItem("id")));
+
+  }, [idImage]);
+
+
   return (
     <div className={styles.container}>
       <Head>
@@ -12,44 +31,21 @@ export default function Home() {
       </Head>
 
       <main className={styles.main}>
-        <h1 className={styles.title}>
-          Welcome to <a href="https://nextjs.org">Next.js!</a>
-        </h1>
-
-        <p className={styles.description}>
-          Get started by editing{' '}
-          <code className={styles.code}>pages/index.js</code>
-        </p>
-
-        <div className={styles.grid}>
-          <a href="https://nextjs.org/docs" className={styles.card}>
-            <h2>Documentation &rarr;</h2>
-            <p>Find in-depth information about Next.js features and API.</p>
-          </a>
-
-          <a href="https://nextjs.org/learn" className={styles.card}>
-            <h2>Learn &rarr;</h2>
-            <p>Learn about Next.js in an interactive course with quizzes!</p>
-          </a>
-
-          <a
-            href="https://github.com/vercel/next.js/tree/canary/examples"
-            className={styles.card}
-          >
-            <h2>Examples &rarr;</h2>
-            <p>Discover and deploy boilerplate example Next.js projects.</p>
-          </a>
-
-          <a
-            href="https://vercel.com/new?utm_source=create-next-app&utm_medium=default-template&utm_campaign=create-next-app"
-            className={styles.card}
-          >
-            <h2>Deploy &rarr;</h2>
-            <p>
-              Instantly deploy your Next.js site to a public URL with Vercel.
-            </p>
-          </a>
-        </div>
+        {
+          data.map((img) =>
+            <>
+              <Image key={img.id} src={img.download_url} alt={img.author} width={img.width} height={img.height}></Image>
+              <form onSubmit={handleSubmit}>
+                <input
+                  type="text"
+                  value={img.id}
+                  name="idImage"
+                />
+                <input type="submit" value="Add this image"></input>
+              </form>
+            </>
+          )
+        }
       </main>
 
       <footer className={styles.footer}>
@@ -66,4 +62,12 @@ export default function Home() {
       </footer>
     </div>
   )
+}
+
+export async function getServerSideProps() {
+  // Fetch data from external API
+  const res = await fetch(`https://picsum.photos/v2/list?page=2&limit=1`)
+  const data = await res.json()
+  // Pass data to the page via props
+  return { props: { data } }
 }
