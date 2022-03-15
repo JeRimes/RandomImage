@@ -14,3 +14,23 @@ a {
 * {
   box-sizing: border-box;
 }
+.main {
+  height: 100vh;
+  display: flex;
+  align-items: center;
+}
+html.has-scroll-smooth {
+  overflow: hidden;
+  position: fixed;
+  left: 0;
+  right: 0;
+  top: 0;
+  bottom: 0;
+}
+.random-image {
+  object-fit: contain;
+}
+.card-image {
+  padding: 50px 10px;
+  width: 50vw;
+}
