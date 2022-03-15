@@ -10,8 +10,14 @@ export default function Home({ data }) {
     const data = new FormData(event.currentTarget)
     event.preventDefault();
 
-    let item = { id: data.get('idImage') }
-    setIdImage([...idImage, item]);
+    //check if exist
+    let exist = idImage.find(item => item.id === data.get('idImage'));
+    if (!exist || idImage.length == 0) {
+      let item = { id: data.get('idImage') }
+      setIdImage([...idImage, item]);
+    }
+
+
   };
 
   useEffect(() => {
@@ -33,17 +39,18 @@ export default function Home({ data }) {
       <main className={styles.main}>
         {
           data.map((img) =>
-            <>
-              <Image key={img.id} src={img.download_url} alt={img.author} width={img.width} height={img.height}></Image>
+            <div key={img.id}>
+              <Image src={img.download_url} alt={img.author} width={img.width} height={img.height}></Image>
               <form onSubmit={handleSubmit}>
                 <input
                   type="text"
                   value={img.id}
                   name="idImage"
+                  readOnly
                 />
                 <input type="submit" value="Add this image"></input>
               </form>
-            </>
+            </div>
           )
         }
       </main>
