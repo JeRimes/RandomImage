@@ -29,10 +29,11 @@ html.has-scroll-smooth {
 }
 .random-image {
   object-fit: contain;
+  cursor: pointer;
 }
 .card-image {
   padding: 50px 10px;
-  width: 50vw;
+  width: max-content;
   display: flex;
   flex-direction: column;
   align-items: center;
@@ -42,15 +43,28 @@ html.has-scroll-smooth {
   top: 30px;
   right: 40px;
 }
-.title {
-  background: #000000;
-  height: 100vh;
-  padding: 60px;
-}
+
 .title h1 {
-  -webkit-transform: rotate(270deg);
-  transform: rotate(270deg);
-  font-size: 6rem;
+  font-size: 3rem;
   text-align: center;
   color: white;
+  background: #000000;
+  padding: 50px 30px;
+  width: max-content;
+  margin-left: 15px;
+}
+.author {
+  overflow: hidden;
+}
+.author h2 {
+  padding: 0 40px;
+}
+.load-more > div {
+  width: 90vw;
+}
+.card-container {
+  display: flex;
+}
+.white-content {
+  background: #e4e4e4;
 }

@@ -1,7 +1,3 @@
-.container {
-  padding: 0 5rem;
-}
-
 .footer {
   position: absolute;
   bottom: 0;
@@ -16,4 +12,5 @@
 .footer p {
   color: white;
   margin-left: 15px;
+  text-shadow: black 1px 1px;
 }
