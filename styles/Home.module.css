@@ -1,5 +1,5 @@
 .container {
-  padding: 0 2rem;
+  padding: 0 5rem;
 }
 
 .footer {
@@ -13,9 +13,7 @@
   align-items: center;
 }
 
-.footer a {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-grow: 1;
+.footer p {
+  color: white;
+  margin-left: 15px;
 }

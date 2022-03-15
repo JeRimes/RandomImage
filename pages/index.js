@@ -4,6 +4,9 @@ import styles from '../styles/Home.module.css'
 import React from 'react';
 import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 
 export default function Home({ data }) {
   console.log(data);
@@ -16,6 +19,7 @@ export default function Home({ data }) {
     if (!exist || idImage.length == 0) {
       let item = { id: idInput }
       setIdImage([...idImage, item]);
+      toast("Image save in collection");
     }
   };
   const RemoveFav = (idInput) => {
@@ -67,10 +71,24 @@ export default function Home({ data }) {
       </Head>
 
       <main className="main" ref={refScrollContainer} data-scroll-container>
-        <Link href="/fav" className="">
-          <a>My collection</a>
-        </Link>
 
+        <ToastContainer
+          position="bottom-right"
+          autoClose={5000}
+          hideProgressBar={false}
+          newestOnTop={false}
+          closeOnClick
+          rtl={false}
+          pauseOnFocusLoss
+          draggable
+          pauseOnHover
+        />
+        <Link href="/fav" >
+          <a className="saved">My collection</a>
+        </Link>
+        <div className='title'>
+          <h1>Double Tab To Save</h1>
+        </div>
         {
           data.map((img) =>
             <div key={img.id} className="card-container" data-scroll-section>
@@ -86,8 +104,11 @@ export default function Home({ data }) {
                   data-scroll-speed="2"
 
                 ></Image>
-                <button onClick={() => AddFav(img.id)}>Add</button>
-                <button onClick={() => RemoveFav(img.id)}>Remove</button>
+                <div>
+                  <button onClick={() => AddFav(img.id)}>Add</button>
+                  <button onClick={() => RemoveFav(img.id)}>Remove</button>
+                </div>
+
               </div>
             </div>
           )

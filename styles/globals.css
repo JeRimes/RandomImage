@@ -20,7 +20,7 @@ a {
   align-items: center;
 }
 html.has-scroll-smooth {
-  overflow: hidden;
+  /* overflow: hidden; */
   position: fixed;
   left: 0;
   right: 0;
@@ -33,4 +33,24 @@ html.has-scroll-smooth {
 .card-image {
   padding: 50px 10px;
   width: 50vw;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+.saved {
+  position: fixed;
+  top: 30px;
+  right: 40px;
+}
+.title {
+  background: #000000;
+  height: 100vh;
+  padding: 60px;
+}
+.title h1 {
+  -webkit-transform: rotate(270deg);
+  transform: rotate(270deg);
+  font-size: 6rem;
+  text-align: center;
+  color: white;
 }
