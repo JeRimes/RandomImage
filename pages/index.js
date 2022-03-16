@@ -1,27 +1,40 @@
 import Head from 'next/head'
 import Image from 'next/image'
 import styles from '../styles/Home.module.css'
-import React from 'react';
-import { useState, useEffect, useRef, createContext } from 'react'
+import React, { useContext } from 'react';
+import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import { DarkModeContext, DarkModeProvider } from './context/DarkModeContext';
 
-export const themes = {
-  dark: "",
-  light: "white-content",
-};
-
-export const ThemeContext = createContext({
-  theme: themes.dark,
-  changeTheme: () => { },
-});
 
 
 export default function Home({ data }) {
+  return (
+    <div className={styles.container}>
+      <Head>
+        <title>Random Image project</title>
+        <meta name="description" content="Developp with next.js with lorem picsum api" />
+        <link rel="icon" href="/favicon.ico" />
+      </Head>
+      <DarkModeProvider>
+        <Content data={data} />
+      </DarkModeProvider>
+
+      <footer className={styles.footer}>
+        <p>
+          Made by passion ©JeRimes
+        </p>
+      </footer>
+    </div>
+  )
+}
+
+function Content({ data }) {
+  const { darkMode } = useContext(DarkModeContext);
   const [idImage, setIdImage] = useState([]);
   const refScrollContainer = useRef(null);
-
   const handleClick = (e) => {
     console.log(e.target.id);
     switch (e.detail) {
@@ -32,9 +45,6 @@ export default function Home({ data }) {
       case 2:
         console.log("double click");
         RemoveFav(e.target.id);
-        break;
-      case 3:
-        console.log("triple click");
         break;
       default:
         return;
@@ -87,19 +97,10 @@ export default function Home({ data }) {
     // storing input name
     localStorage.setItem("id", JSON.stringify(idImage));
     console.log(JSON.parse(localStorage.getItem("id")));
-
   }, [idImage]);
-
-
-
   return (
-    <div className={styles.container}>
-      <Head>
-        <title>Random Image project</title>
-        <meta name="description" content="Developp with next.js with lorem picsum api" />
-        <link rel="icon" href="/favicon.ico" />
-      </Head>
 
+    <div className={darkMode ? 'Container-dark' : 'Container-light'}>
       <main className="main" ref={refScrollContainer} data-scroll-container>
         <ToastContainer
           position="bottom-right"
@@ -112,6 +113,7 @@ export default function Home({ data }) {
           draggable
           pauseOnHover
         />
+        <LitghtSwitch />
         <Link href="/fav" >
           <a className="saved">My collection</a>
         </Link>
@@ -157,15 +159,35 @@ export default function Home({ data }) {
         </div>
 
       </main>
+    </div>
 
-      <footer className={styles.footer}>
-        <p>
-          Made by passion ©JeRimes
-        </p>
-      </footer>
+
+  )
+
+}
+
+function LitghtSwitch() {
+  const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
+  const handleClick = () => {
+    toggleDarkMode();
+    console.log("is darkmode : " + darkMode);
+  }
+
+  return (
+    <div>
+      <div className='light-div'>
+        <Image
+          alt="Lightswitch on"
+          width={100}
+          height={100}
+          src={darkMode ? "/lightswitch-off.png " : "/lightswitch-on.png"}
+          onClick={handleClick} />
+      </div>
     </div>
   )
+
 }
+
 
 export async function getServerSideProps() {
   // Fetch data from external API
