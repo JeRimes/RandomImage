@@ -6,7 +6,7 @@ import { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
-import { DarkModeContext, DarkModeProvider } from './components/DarkModeContext';
+import { DarkModeContext, DarkModeProvider } from '../components/DarkModeContext';
 
 
 

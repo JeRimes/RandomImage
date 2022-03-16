@@ -1,5 +1,6 @@
 import { useState, useEffect } from 'react'
 import Link from 'next/link'
+import Image from 'next/image'
 
 export default function Fav() {
     const [isLoading, setIsLoading] = useState(false)
@@ -27,7 +28,19 @@ export default function Fav() {
                 <a>Go to home</a>
             </Link>
             {saveImage.map((img) =>
-                <h1 key={img.author}>{img.author}</h1>
+                <>
+                    <h1 key={img.author}>{img.author}</h1>
+                    <Image
+                        id={img.id}
+                        className='random-image'
+                        src={img.download_url + ".webp"}
+                        alt={img.author}
+                        width={600}
+                        height={450}
+                    ></Image>
+                </>
+
+
             )
             }
         </div>
