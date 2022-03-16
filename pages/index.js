@@ -8,8 +8,6 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import { DarkModeContext, DarkModeProvider } from '../components/DarkModeContext';
 
-
-
 export default function Home({ data }) {
   return (
     <div>
@@ -120,9 +118,7 @@ function Content({ data }) {
         reloadOnContextChange: true,
         smartphone: {
           smooth: false,
-          // breakpoint: 767
         },
-
 
       });
     });
@@ -134,7 +130,6 @@ function Content({ data }) {
   useEffect(() => {
     // storing input name
     localStorage.setItem("id", JSON.stringify(idImage));
-    console.log(JSON.parse(localStorage.getItem("id")));
   }, [idImage]);
   return (
 
@@ -208,7 +203,6 @@ function LitghtSwitch() {
   const { darkMode, toggleDarkMode } = useContext(DarkModeContext);
   const handleClick = () => {
     toggleDarkMode();
-    console.log("is darkmode : " + darkMode);
   }
 
   return (

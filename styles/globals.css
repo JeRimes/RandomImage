@@ -108,3 +108,7 @@ footer {
 footer p {
   margin-left: 15px;
 }
+
+.header {
+  text-align: center;
+}

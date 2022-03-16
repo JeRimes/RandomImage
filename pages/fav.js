@@ -3,33 +3,41 @@ import Link from 'next/link'
 import Image from 'next/image'
 
 export default function Fav() {
-    const [isLoading, setIsLoading] = useState(false)
+
     const [saveImage, setsaveImage] = useState([])
 
     useEffect(() => {
         let id = JSON.parse(localStorage.getItem("id"));
-        console.log(id);
 
-        setIsLoading(true)
-        fetch('https://picsum.photos/id/0/info')
-            .then(response => response.json())
-            .then(obj => {
-                console.log(obj);
-                setsaveImage([...saveImage, obj]);
+        function fetchImageSaved() {
+            let images = [];
+            id.forEach(element => {
+                fetch('https://picsum.photos/id/' + element.id + '/info')
+                    .then(response => response.json())
+                    .then(obj => {
+                        images.push(obj);
+                    })
+            });
+            images.forEach(element => {
+                setsaveImage(...saveImage, element)
             })
+        }
+
+        fetchImageSaved()
+
     }, []);
-
-
 
     return (
         <div>
-            <h1>Your Image collection</h1>
-            <Link href="/">
-                <a>Go to home</a>
-            </Link>
+            <div className='header'>
+                <h1>Your Image collection</h1>
+                <Link href="/">
+                    <a>Go to home</a>
+                </Link>
+            </div>
             {saveImage.map((img) =>
-                <>
-                    <h1 key={img.author}>{img.author}</h1>
+                <div key={img.id} >
+                    <h1 >{img.author}</h1>
                     <Image
                         id={img.id}
                         className='random-image'
@@ -38,7 +46,7 @@ export default function Fav() {
                         width={600}
                         height={450}
                     ></Image>
-                </>
+                </div>
 
 
             )
