@@ -1,3 +1,8 @@
+:root {
+  --dark-mode: #1e1e1d;
+  --light-mode: white;
+}
+
 html,
 body {
   padding: 0;
@@ -14,6 +19,15 @@ a {
 * {
   box-sizing: border-box;
 }
+.Container-light {
+  background: var(--light-mode);
+  color: var(--dark-mode);
+}
+.Container-dark {
+  background-color: var(--dark-mode);
+  color: var(--light-mode);
+}
+
 .main {
   height: 100vh;
   display: flex;
@@ -47,10 +61,8 @@ html.has-scroll-smooth {
 .title h1 {
   font-size: 3rem;
   text-align: center;
-  color: white;
-  background: #000000;
   padding: 50px 30px;
-  width: max-content;
+  width: 500px;
   margin-left: 15px;
 }
 .author {
@@ -65,13 +77,18 @@ html.has-scroll-smooth {
 .card-container {
   display: flex;
 }
-.Container-light {
-  background: #e4e4e4;
-}
 
-.Container-dark {
-  background-color: #000000;
-}
 .light-div {
   width: 100px;
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  width: 50px;
+  cursor: pointer;
+}
+
+.load-more div h1 {
+  font-size: 10rem;
+  cursor: pointer;
+  text-decoration: underline;
 }
