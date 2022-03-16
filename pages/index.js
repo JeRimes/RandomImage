@@ -12,7 +12,7 @@ import { DarkModeContext, DarkModeProvider } from './context/DarkModeContext';
 
 export default function Home({ data }) {
   return (
-    <div className={styles.container}>
+    <div>
       <Head>
         <title>Random Image project</title>
         <meta name="description" content="Developp with next.js with lorem picsum api" />
@@ -22,7 +22,7 @@ export default function Home({ data }) {
         <Content data={data} />
       </DarkModeProvider>
 
-      <footer className={styles.footer}>
+      <footer>
         <p>
           Made by passion ©JeRimes
         </p>
@@ -35,15 +35,34 @@ function Content({ data }) {
   const { darkMode } = useContext(DarkModeContext);
   const [idImage, setIdImage] = useState([]);
   const refScrollContainer = useRef(null);
+  const [randomImage, setrandomImage] = useState([])
+
+  function RenderRandomImage() {
+    let copy = data.map(object => ({ ...object }));
+    let numberMaxImage = 5;
+    copy = copy.sort((a, b) => 0.5 - Math.random()).slice(0, numberMaxImage);
+    setrandomImage(copy)
+  }
+
+  function refreshPage() {
+    window.location.reload();
+  }
+
+  useEffect(() => {
+    RenderRandomImage()
+    return () => {
+      setrandomImage({});
+    };
+  }, []);
+
+
+
   const handleClick = (e) => {
-    console.log(e.target.id);
     switch (e.detail) {
       case 1:
-        console.log("click");
         AddFav(e.target.id);
         break;
       case 2:
-        console.log("double click");
         RemoveFav(e.target.id);
         break;
       default:
@@ -70,27 +89,46 @@ function Content({ data }) {
   };
 
   useEffect(() => {
-    async function getLocomotive() {
-      const Locomotive = (await import("locomotive-scroll")).default;
-      new Locomotive({
-        el: refScrollContainer.current,
-        direction: 'horizontal',
-        reloadOnContextChange: true,
-        touchMultiplier: 2,
-        smoothMobile: 0,
-        multiplier: 1.4,
+    // async function getLocomotive() {
+    //   const Locomotive = (await import("locomotive-scroll")).default;
+    //   new Locomotive({
+    //     el: refScrollContainer.current,
+    //     direction: 'horizontal',
+    //     // reloadOnContextChange: true,
+    //     touchMultiplier: 2,
+    //     smoothMobile: 0,
+    //     multiplier: 1.4,
+    //     smooth: true,
+    //     smartphone: {
+    //       smooth: true,
+    //       breakpoint: 767
+    //     },
+    //     tablet: {
+    //       smooth: true,
+    //       breakpoint: 1024
+    //     },
+    //   });
+    // }
+    // getLocomotive();
+    let scroll;
+    import("locomotive-scroll").then((locomotiveModule) => {
+      scroll = new locomotiveModule.default({
+        el: document.querySelector("[data-scroll-container]"),
         smooth: true,
+        direction: 'horizontal',
+        resetNativeScroll: true,
+        reloadOnContextChange: true,
         smartphone: {
-          smooth: true,
-          breakpoint: 767
+          smooth: false,
+          // breakpoint: 767
         },
-        tablet: {
-          smooth: true,
-          breakpoint: 1024
-        },
+
+
       });
-    }
-    getLocomotive();
+    });
+
+    // `useEffect`'s cleanup phase
+    return () => scroll.destroy();
   }, []);
 
   useEffect(() => {
@@ -120,12 +158,12 @@ function Content({ data }) {
         <div className='title' data-scroll-section>
           <h1
             data-scroll
-            data-scroll-speed="-1"
-          >1 Click To Save. Double To Remove</h1>
+
+          >1 Click To Save. Double To Remove.</h1>
         </div>
         <div className="card-container">
           {
-            data.map((img) =>
+            randomImage.map((img) =>
 
               <div key={img.id} className="card-image" data-scroll-section >
                 <Image
@@ -152,7 +190,7 @@ function Content({ data }) {
         </div>
         <div className='load-more' data-scroll-section>
           <div>
-            <h1
+            <h1 onClick={refreshPage}
             >Load More ?</h1>
           </div>
 
@@ -194,5 +232,6 @@ export async function getServerSideProps() {
   const res = await fetch(`https://picsum.photos/v2/list?limit=10`)
   const data = await res.json()
   // Pass data to the page via props
+
   return { props: { data } }
 }

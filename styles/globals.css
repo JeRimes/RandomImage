@@ -23,9 +23,10 @@ a {
   background: var(--light-mode);
   color: var(--dark-mode);
 }
-.Container-dark {
+.Container-dark,
+.Container-dark > * {
   background-color: var(--dark-mode);
-  color: var(--light-mode);
+  color: var(--light-mode) !important;
 }
 
 .main {
@@ -91,4 +92,19 @@ html.has-scroll-smooth {
   font-size: 10rem;
   cursor: pointer;
   text-decoration: underline;
+}
+
+footer {
+  position: absolute;
+  bottom: 0;
+  display: flex;
+  flex: 1;
+  padding: 2rem 0;
+  border-top: 1px solid #eaeaea;
+  justify-content: center;
+  align-items: center;
+}
+
+footer p {
+  margin-left: 15px;
 }
