@@ -9,7 +9,7 @@ export default function Home() {
 
     return (
         <div>
-            <h1>Vos images favorites</h1>
+            <h1>Your Image collection</h1>
             <Link href="/">
                 <a>Go to home</a>
             </Link>
