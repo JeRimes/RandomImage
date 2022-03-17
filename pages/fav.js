@@ -7,24 +7,38 @@ export default function Fav() {
     const [saveImage, setsaveImage] = useState([])
 
     useEffect(() => {
+
         let id = JSON.parse(localStorage.getItem("id"));
+        console.log(id);
+        async function fetchSymbols() {
+            if (id != null) {
+                const symbols = [];
+                await id.forEach(element => {
+                    fetch('https://picsum.photos/id/' + element.id + '/info')
+                        .then(response => response.json())
+                        .then(obj => {
 
-        function fetchImageSaved() {
-            let images = [];
-            id.forEach(element => {
-                fetch('https://picsum.photos/id/' + element.id + '/info')
-                    .then(response => response.json())
-                    .then(obj => {
-                        images.push(obj);
-                    })
-            });
-            images.forEach(element => {
-                setsaveImage(...saveImage, element)
-            })
+                            let img = {
+                                id: obj.id,
+                                download_url: obj.download_url,
+                                author: obj.author
+                            }
+                            symbols.push(img);
+                        })
+                });
+                console.log(symbols);
+                symbols.forEach((element) => {
+
+                    console.log(element);
+                    setsaveImage(...saveImage, element);
+                }
+                )
+
+            }
+
         }
-
-        fetchImageSaved()
-
+        fetchSymbols();
+        console.log(saveImage);
     }, []);
 
     return (
@@ -36,18 +50,16 @@ export default function Fav() {
                 </Link>
             </div>
             {saveImage.map((img) =>
-                <div key={img.id} >
-                    <h1 >{img.author}</h1>
-                    <Image
-                        id={img.id}
-                        className='random-image'
-                        src={img.download_url + ".webp"}
-                        alt={img.author}
-                        width={600}
-                        height={450}
-                    ></Image>
-                </div>
 
+                <Image
+                    key={img.id}
+                    id={img.id}
+                    className='random-image'
+                    src={img.download_url + ".webp"}
+                    alt={img.author}
+                    width={600}
+                    height={450}
+                ></Image>
 
             )
             }

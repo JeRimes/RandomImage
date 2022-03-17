@@ -130,6 +130,7 @@ function Content({ data }) {
   useEffect(() => {
     // storing input name
     localStorage.setItem("id", JSON.stringify(idImage));
+    console.log(JSON.parse(localStorage.getItem("id")));
   }, [idImage]);
   return (
 
