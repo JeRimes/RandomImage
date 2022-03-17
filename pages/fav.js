@@ -9,36 +9,17 @@ export default function Fav() {
     useEffect(() => {
 
         let id = JSON.parse(localStorage.getItem("id"));
-        console.log(id);
-        async function fetchSymbols() {
+
+        function fetchSymbols() {
             if (id != null) {
-                const symbols = [];
-                await id.forEach(element => {
-                    fetch('https://picsum.photos/id/' + element.id + '/info')
-                        .then(response => response.json())
-                        .then(obj => {
+                const promises = id.map(element => fetch("https://picsum.photos/id/" + element.id + "/info").then(e => e.json()));
 
-                            let img = {
-                                id: obj.id,
-                                download_url: obj.download_url,
-                                author: obj.author
-                            }
-                            symbols.push(img);
-                        })
-                });
-                console.log(symbols);
-                symbols.forEach((element) => {
-
-                    console.log(element);
-                    setsaveImage(...saveImage, element);
-                }
-                )
-
+                Promise.all(promises).then(movies => setsaveImage(movies));
             }
 
         }
-        fetchSymbols();
-        console.log(saveImage);
+        fetchSymbols()
+
     }, []);
 
     return (
