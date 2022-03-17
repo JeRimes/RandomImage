@@ -117,7 +117,7 @@ function Content({ data }) {
         resetNativeScroll: true,
         reloadOnContextChange: true,
         smartphone: {
-          smooth: false,
+          smooth: true,
         },
 
       });

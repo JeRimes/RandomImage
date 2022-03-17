@@ -30,20 +30,22 @@ export default function Fav() {
                     <a>Go to home</a>
                 </Link>
             </div>
-            {saveImage.map((img) =>
+            <div className='image-save'>
+                {saveImage.map((img) =>
 
-                <Image
-                    key={img.id}
-                    id={img.id}
-                    className='random-image'
-                    src={img.download_url + ".webp"}
-                    alt={img.author}
-                    width={600}
-                    height={450}
-                ></Image>
+                    <Image
+                        key={img.id}
+                        id={img.id}
+                        className='random-image'
+                        src={img.download_url + ".webp"}
+                        alt={img.author}
+                        width={600}
+                        height={450}
+                    ></Image>
 
-            )
-            }
+                )
+                }
+            </div>
         </div>
 
 

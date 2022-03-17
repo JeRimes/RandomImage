@@ -112,3 +112,9 @@ footer p {
 .header {
   text-align: center;
 }
+.image-save {
+  display: flex;
+  gap: 15px;
+  flex-wrap: wrap;
+  padding: 10px;
+}
